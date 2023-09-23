@@ -1,15 +1,26 @@
-import { Box, Container, HStack, Heading, Link, Spacer } from "@/chakra-ui/react";
+"use client";
+
 import { REPOSITORY_URL, SITE_NAME } from "@/consts/page";
+import { Box, Container, HStack, Heading, Link, Mark, Spacer, useHighlight } from "@chakra-ui/react";
 import NextLink from "next/link";
 
 export default function Header() {
+  const chunks = useHighlight({
+    text: SITE_NAME,
+    query: ["Kiite", "Cafe"]
+  });
+
   return (
     <Box as={"header"} color={"header.text"} bgColor={"header.bg"}>
       <Container maxW="container.lg">
         <HStack h={14}>
           <Heading as="h1" fontSize="2xl" cursor="pointer">
             <Link as={NextLink} href="/" _hover={{ textDecoration: "none" }}>
-              {SITE_NAME}
+              {chunks.map(({ text }, i) => (
+                <Mark key={i} color={getMarkColor(text)}>
+                  {text}
+                </Mark>
+              ))}
             </Link>
           </Heading>
           <Spacer />
@@ -20,4 +31,15 @@ export default function Header() {
       </Container>
     </Box>
   );
+}
+
+function getMarkColor (text: string) {
+  switch (text) {
+    case "Kiite":
+      return "header.kiite";
+    case "Cafe":
+      return "header.cafe";
+    default:
+      return "header.text";
+  }
 }
