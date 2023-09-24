@@ -1,5 +1,6 @@
-import { Box, Grid, GridItem, HStack } from "@/chakra-ui/react";
+import { Badge, Box, Grid, GridItem, HStack } from "@/chakra-ui/react";
 import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
+import { getTimestampStr } from "@/util/time";
 import Image from "./Image";
 
 type Props = {
@@ -8,6 +9,8 @@ type Props = {
 
 export default function SongCard (props: Props) {
   const { song } = props;
+  const diffTime = Date.now() - new Date(song.start_time).getTime();
+  const timestampStr = getTimestampStr(diffTime);
 
   return (
     <HStack w={"100%"} alignItems={"flex-start"}>
@@ -41,25 +44,27 @@ export default function SongCard (props: Props) {
           "arti arti rota fave sour"
         `} bgColor={"rgba(0, 0, 0, 0.8)"} color={"white"} w={"100%"}
       >
-        <GridItem gridArea={"time"} bgColor={"#EFB4EA"}>
+        <GridItem area={"time"}>
+          <Badge display={"flex"} justifyContent={"center"} bgColor={"#666666"} color={"#ffffff"}>
+            {timestampStr}
+          </Badge>
+        </GridItem>
+        <GridItem area={"reas"} bgColor={"#E9DD51"}>
 
         </GridItem>
-        <GridItem gridArea={"reas"} bgColor={"#E9DD51"}>
+        <GridItem area={"titl"} bgColor={"#E4BFFA"}>
 
         </GridItem>
-        <GridItem gridArea={"titl"} bgColor={"#E4BFFA"}>
+        <GridItem area={"arti"} bgColor={"#168F4D"}>
 
         </GridItem>
-        <GridItem gridArea={"arti"} bgColor={"#168F4D"}>
+        <GridItem area={"rota"} bgColor={"#DB4056"}>
 
         </GridItem>
-        <GridItem gridArea={"rota"} bgColor={"#DB4056"}>
+        <GridItem area={"fave"} bgColor={"#BE6B69"}>
 
         </GridItem>
-        <GridItem gridArea={"fave"} bgColor={"#BE6B69"}>
-
-        </GridItem>
-        <GridItem gridArea={"sour"} bgColor={"#5B9C70"}>
+        <GridItem area={"sour"} bgColor={"#5B9C70"}>
 
         </GridItem>
       </Grid>
