@@ -1,4 +1,4 @@
-import { Box, HStack, Text, VStack } from "@/chakra-ui/react";
+import { Box, Grid, GridItem, HStack } from "@/chakra-ui/react";
 import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
 import Image from "./Image";
 
@@ -10,8 +10,14 @@ export default function SongCard (props: Props) {
   const { song } = props;
 
   return (
-    <HStack w={"100%"}>
-      <Box h={"60px"} w={"60px"} overflow={"hidden"} borderRadius={"20%"}>
+    <HStack w={"100%"} alignItems={"flex-start"}>
+      <Box
+        h={"60px"}
+        w={"60px"}
+        overflow={"hidden"}
+        borderRadius={"20%"}
+        flexShrink={0}
+      >
         <Image
           src={song.thumbnail}
           alt={song.title}
@@ -24,11 +30,39 @@ export default function SongCard (props: Props) {
           transformOrigin="center"
         />
       </Box>
-      <VStack>
-        <Text>
-          {song.title}
-        </Text>
-      </VStack>
+      <Grid
+        padding={"10px 15px 5px"}
+        gridTemplateColumns={"58px 5fr 1fr 1fr 20px"}
+        gridTemplateRows={"18px 18px 18px"}
+        rowGap={"3px"}
+        gridTemplateAreas={`
+          "time reas reas reas sour"
+          "titl titl titl titl sour"
+          "arti arti rota fave sour"
+        `} bgColor={"rgba(0, 0, 0, 0.8)"} color={"white"} w={"100%"}
+      >
+        <GridItem gridArea={"time"} bgColor={"#EFB4EA"}>
+
+        </GridItem>
+        <GridItem gridArea={"reas"} bgColor={"#E9DD51"}>
+
+        </GridItem>
+        <GridItem gridArea={"titl"} bgColor={"#E4BFFA"}>
+
+        </GridItem>
+        <GridItem gridArea={"arti"} bgColor={"#168F4D"}>
+
+        </GridItem>
+        <GridItem gridArea={"rota"} bgColor={"#DB4056"}>
+
+        </GridItem>
+        <GridItem gridArea={"fave"} bgColor={"#BE6B69"}>
+
+        </GridItem>
+        <GridItem gridArea={"sour"} bgColor={"#5B9C70"}>
+
+        </GridItem>
+      </Grid>
     </HStack>
   );
 }
