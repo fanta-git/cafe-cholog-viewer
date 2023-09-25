@@ -1,4 +1,4 @@
-import SongCard from "@/compornents/SongCard";
+import SongCard from "@/components/SongCard";
 import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
 
 export default async function Home() {

@@ -1,5 +1,5 @@
-import DefaultWrapper from "@/compornents/DefaultWrapper";
-import Header from "@/compornents/Header";
+import DefaultWrapper from "@/components/DefaultWrapper";
+import Header from "@/components/Header";
 import { Providers } from "./providers";
 
 type Props = {
