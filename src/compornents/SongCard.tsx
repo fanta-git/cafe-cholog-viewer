@@ -1,7 +1,9 @@
-import { Badge, Box, Grid, GridItem, HStack } from "@/chakra-ui/react";
+import { Box, Center, Grid, GridItem, HStack } from "@/chakra-ui/react";
+import * as s from "@/styles/timetable";
 import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
 import { getTimestampStr } from "@/util/time";
 import Image from "./Image";
+import Link from "next/link";
 
 type Props = {
   song: RetrunCafeSongWithComment;
@@ -12,59 +14,45 @@ export default function SongCard (props: Props) {
   const diffTime = Date.now() - new Date(song.start_time).getTime();
   const timestampStr = getTimestampStr(diffTime);
 
+  // 現状コメント無しのユーザーの情報は取得できない
+  const [mainReason] = song.reasons;
+  const hasUserData = mainReason.type === "priority_playlist" && mainReason.user != null;
+
   return (
-    <HStack w={"100%"} alignItems={"flex-start"}>
-      <Box
-        h={"60px"}
-        w={"60px"}
-        overflow={"hidden"}
-        borderRadius={"20%"}
-        flexShrink={0}
-      >
-        <Image
-          src={song.thumbnail}
-          alt={song.title}
-          width={130}
-          height={100}
-          w={"100%"}
-          h={"100%"}
-          objectFit={"contain"}
-          transform="scale(1.8)"
-          transformOrigin="center"
-        />
+    <HStack {...s.wrapperStack}>
+      <Box {...s.thumbnailWrapperBox} >
+        <Image src={song.thumbnail} alt={song.title} {...s.thumbnailImage} />
       </Box>
-      <Grid
-        padding={"10px 15px 5px"}
-        gridTemplateColumns={"58px 5fr 1fr 1fr 20px"}
-        gridTemplateRows={"18px 18px 18px"}
-        rowGap={"3px"}
-        gridTemplateAreas={`
-          "time reas reas reas sour"
-          "titl titl titl titl sour"
-          "arti arti rota fave sour"
-        `} bgColor={"rgba(0, 0, 0, 0.8)"} color={"white"} w={"100%"}
-      >
+      <Grid {...s.musicInfoGrid}>
         <GridItem area={"time"}>
-          <Badge display={"flex"} justifyContent={"center"} bgColor={"#666666"} color={"#ffffff"}>
+          <Center {...s.timestampCenter}>
             {timestampStr}
-          </Badge>
+          </Center>
         </GridItem>
-        <GridItem area={"reas"} bgColor={"#E9DD51"}>
-
+        <GridItem area={"reas"}>
+          {hasUserData && <Box {...s.reason}>
+            <Box {...s.reason_icon} backgroundImage={mainReason.user.avatar_url}></Box>
+            <Link style={{ color: "#ffef00" }} href={mainReason.list_id} target="_blank">{mainReason.user.nickname}</Link>
+            さんの
+            <Link style={{ color: "cyan" }} href={`https://kiite.jp/playlist/${mainReason.list_id}`} target="_blank">イチ推しリスト</Link>
+            の曲です
+          </Box>}
         </GridItem>
-        <GridItem area={"titl"} bgColor={"#E4BFFA"}>
-
+        <GridItem area={"titl"}>
+          <Box {...s.title}>
+            {song.title}
+          </Box>
         </GridItem>
-        <GridItem area={"arti"} bgColor={"#168F4D"}>
-
+        <GridItem area={"arti"}>
+          <Box {...s.artist}><Box as={"span"} {...s.artist_span}>{song.artist_name}</Box></Box>
         </GridItem>
-        <GridItem area={"rota"} bgColor={"#DB4056"}>
-
+        <GridItem area={"rota"}>
+          回 {10}
         </GridItem>
-        <GridItem area={"fave"} bgColor={"#BE6B69"}>
-
+        <GridItem area={"fave"}>
+          ♡ {10}
         </GridItem>
-        <GridItem area={"sour"} bgColor={"#5B9C70"}>
+        <GridItem area={"sour"}>
 
         </GridItem>
       </Grid>
