@@ -26,10 +26,10 @@ export const thumbnailImage: ImageProps = {
 };
 
 export const musicInfoGrid: GridProps = {
-  width: "100%",
+  w: "100%",
   bgColor: "rgba(0, 0, 0, 0.8)",
   color: "white",
-  padding: "10px 15px 5px",
+  p: "10px 15px 5px",
   gridTemplateColumns: "58px 5fr 1fr 1fr 20px",
   gridTemplateRows: "18px 18px 18px",
   rowGap: "3px",
@@ -41,11 +41,10 @@ export const musicInfoGrid: GridProps = {
 };
 
 export const timestampCenter: CenterProps = {
-  height: "100%",
-  width: "100%",
-  padding: 0,
+  h: "100%",
+  w: "100%",
   color: "#ffffff",
-  background: "#666666",
+  bg: "#666666",
 };
 
 export const reason: StyleProps = {
@@ -56,10 +55,8 @@ export const reason: StyleProps = {
 };
 
 export const reason_icon: StyleProps = {
-  width: "22px",
-  height: "22px",
-  backgroundSize: "cover",
-  backgroundPosition: "center",
+  width: 22,
+  height: 22,
   borderRadius: "50%",
 };
 

@@ -1,9 +1,9 @@
-import { Box, Center, Grid, GridItem, HStack } from "@/chakra-ui/react";
+import { Link } from "@/chakra-ui/next-js";
+import { Box, Center, Grid, GridItem, HStack, Text } from "@/chakra-ui/react";
 import * as s from "@/styles/timetable";
 import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
 import { getTimestampStr } from "@/util/time";
 import Image from "./Image";
-import Link from "next/link";
 
 type Props = {
   song: RetrunCafeSongWithComment;
@@ -30,13 +30,19 @@ export default function SongCard (props: Props) {
           </Center>
         </GridItem>
         <GridItem area={"reas"}>
-          {hasUserData && <Box {...s.reason}>
-            <Box {...s.reason_icon} backgroundImage={mainReason.user.avatar_url}></Box>
-            <Link style={{ color: "#ffef00" }} href={mainReason.list_id} target="_blank">{mainReason.user.nickname}</Link>
-            さんの
-            <Link style={{ color: "cyan" }} href={`https://kiite.jp/playlist/${mainReason.list_id}`} target="_blank">イチ推しリスト</Link>
-            の曲です
-          </Box>}
+          {hasUserData && (
+            <HStack px={"10px"} gap={"5px"}>
+              <Image src={mainReason.user.avatar_url} alt={mainReason.user.nickname} {...s.reason_icon} />
+              <Text>
+                <Link href={mainReason.list_id} fontWeight={"bold"} color={"#ffef00"} isExternal>{mainReason.user.nickname}</Link>
+                さんの
+                <Link href={`https://kiite.jp/playlist/${mainReason.list_id}`} fontWeight={"bold"} color={"#00ffff"} isExternal>
+                  イチ推しリスト
+                </Link>
+                の曲です
+              </Text>
+            </HStack>
+          )}
         </GridItem>
         <GridItem area={"titl"}>
           <Box {...s.title}>

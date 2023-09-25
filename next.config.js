@@ -5,6 +5,9 @@ const nextConfig = {
       {
         hostname: "nicovideo.cdn.nimg.jp",
       },
+      {
+        hostname: "*.cloudfront.net",
+      },
     ],
   },
 };
