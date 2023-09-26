@@ -1,4 +1,4 @@
-import SongCard from "@/components/SongCard";
+import TimetableItem from "@/components/TimetableItem";
 import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
 
 export default async function Home() {
@@ -8,7 +8,7 @@ export default async function Home() {
   return (
     <>
       {timetable.map(v => (
-        <SongCard key={v.id} song={v} />
+        <TimetableItem key={v.id} song={v} />
       ))}
     </>
   );
