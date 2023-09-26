@@ -13,8 +13,10 @@ export default function Timestamp (props: Props) {
   const timestampStr = getTimestampStr(diffTime);
 
   return (
-    <Center {...timestampCenter}>
-      {timestampStr}
+    <Center w={"100%"} h={"100%"}>
+      <Center {...timestampCenter}>
+        {timestampStr}
+      </Center>
     </Center>
   );
 }

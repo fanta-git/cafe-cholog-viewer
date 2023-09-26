@@ -29,10 +29,9 @@ export const musicInfoGrid: GridProps = {
   w: "100%",
   bgColor: "rgba(0, 0, 0, 0.8)",
   color: "white",
-  p: "10px 15px 5px",
+  p: "8px 15px 5px",
   gridTemplateColumns: "58px 5fr 1fr 1fr 20px",
-  gridTemplateRows: "18px 18px 18px",
-  rowGap: "3px",
+  gridTemplateRows: "22px repeat(2, auto)",
   gridTemplateAreas: `
     "time reas reas reas sour"
     "titl titl titl titl sour"
@@ -41,8 +40,8 @@ export const musicInfoGrid: GridProps = {
 };
 
 export const timestampCenter: CenterProps = {
-  h: "100%",
-  w: "100%",
+  h: "18px",
+  w: "58px",
   color: "#ffffff",
   bg: "#666666",
 };
@@ -100,14 +99,12 @@ export const reason_playlist: StyleProps = {
 
 export const title: Partial<LinkProps> = {
   display: "flex",
-  gridArea: "titl",
   alignItems: "center",
   fontSize: "1.2em",
 };
 
 export const artist: StyleProps = {
   display: "flex",
-  gridArea: "arti",
   alignItems: "center",
 };
 
@@ -125,14 +122,12 @@ export const rotate: StyleProps = {
   display: "inline-flex",
   alignItems: "center",
   columnGap: "5px",
-  gridArea: "rota",
 };
 
 export const new_fav: StyleProps = {
   display: "inline-flex",
   alignItems: "center",
   columnGap: "5px",
-  gridArea: "fave",
 };
 
 export const invisible: StyleProps = {
@@ -165,7 +160,6 @@ export const out_icon: StyleProps = {
 };
 
 export const source: StyleProps = {
-  gridArea: "sour",
   margin: "auto",
   zIndex: 1,
 };
