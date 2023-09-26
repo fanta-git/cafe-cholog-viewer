@@ -1,5 +1,4 @@
 import { Grid, GridItem, HStack } from "@/chakra-ui/react";
-import { musicInfoGrid, wrapperStack } from "@/styles/timetable";
 import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
 import Artist from "./Artist";
 import FavCount from "./FavCount";
@@ -18,9 +17,21 @@ export default function SongCard (props: Props) {
   const { song } = props;
 
   return (
-    <HStack {...wrapperStack}>
+    <HStack width={"100%"} alignItems={"flex-start"} fontSize={"12px"}>
       <Thumbnail song={song} />
-      <Grid {...musicInfoGrid}>
+      <Grid
+        w={"100%"}
+        bgColor={"rgba(0, 0, 0, 0.8)"}
+        color={"white"}
+        p={"8px 15px 5px"}
+        gridTemplateColumns={"58px 5fr 1fr 1fr 20px"}
+        gridTemplateRows={"22px repeat(2, auto)"}
+        gridTemplateAreas={`
+          "time reas reas reas sour"
+          "titl titl titl titl sour"
+          "arti arti rota fave sour"
+        `}
+      >
         <GridItem area={"time"}>
           <Timestamp song={song} />
         </GridItem>

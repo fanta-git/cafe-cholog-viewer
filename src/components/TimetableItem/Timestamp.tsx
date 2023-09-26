@@ -1,5 +1,4 @@
 import { Center } from "@/chakra-ui/react";
-import { timestampCenter } from "@/styles/timetable";
 import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
 import { getTimestampStr } from "@/util/time";
 
@@ -14,7 +13,7 @@ export default function Timestamp (props: Props) {
 
   return (
     <Center w={"100%"} h={"100%"}>
-      <Center {...timestampCenter}>
+      <Center h={"18px"} w={"58px"} color={"#ffffff"} bg={"#666666"}>
         {timestampStr}
       </Center>
     </Center>

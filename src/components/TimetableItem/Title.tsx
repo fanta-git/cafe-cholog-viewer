@@ -1,5 +1,4 @@
 import { Box } from "@/chakra-ui/react";
-import { title } from "@/styles/timetable";
 import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
 
 type Props = {
@@ -10,7 +9,7 @@ export default function Title (props: Props) {
   const { song } = props;
 
   return (
-    <Box {...title}>
+    <Box fontSize={"1.2em"}>
       {song.title}
     </Box>
   );
