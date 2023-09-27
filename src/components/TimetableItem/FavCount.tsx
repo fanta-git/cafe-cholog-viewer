@@ -1,9 +1,9 @@
 import { MdFavorite } from "@/chakra-ui/mdIcons";
 import { AbsoluteCenter, Box, Center, HStack, Icon, Text } from "@/chakra-ui/react";
-import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
+import { TimetableSong } from "@/foundations/fetchTimetable";
 
 type Props = {
-  song: RetrunCafeSongWithComment;
+  song: TimetableSong;
 };
 
 export default function FavCount (props: Props) {

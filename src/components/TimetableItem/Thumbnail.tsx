@@ -1,9 +1,9 @@
 import { Box } from "@/chakra-ui/react";
 import Image from "@/components/Image";
-import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
+import { TimetableSong } from "@/foundations/fetchTimetable";
 
 type Props = {
-  song: RetrunCafeSongWithComment;
+  song: TimetableSong;
 };
 
 export default function Thumbnail (props: Props) {

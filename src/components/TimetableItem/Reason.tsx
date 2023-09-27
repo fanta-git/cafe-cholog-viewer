@@ -1,35 +1,33 @@
 import { Link } from "@/chakra-ui/next-js";
 import { HStack, Text } from "@/chakra-ui/react";
 import Image from "@/components/Image";
-import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
+import { TimetableSong } from "@/foundations/fetchTimetable";
 
 type Props = {
-  song: RetrunCafeSongWithComment;
+  song: TimetableSong;
 };
 
 export default function Reason (props: Props) {
   const { song } = props;
+  const { reasons: [mainReason], priorityUser } = song;
 
-  // 現状コメント無しのユーザーの情報は取得できない
-  const [mainReason] = song.reasons;
-  const hasUserData = mainReason.type === "priority_playlist" && mainReason.user != null;
-  if (!hasUserData) return;
+  if (mainReason.type !== "priority_playlist" || priorityUser === undefined) return;
 
-  const userUrl = `https://kiite.jp/user/${mainReason.user.user_name}`;
+  const userUrl = `https://kiite.jp/user/${priorityUser.user_name}`;
   const listUrl = `https://kiite.jp/playlist/${mainReason.list_id}`;
 
   return (
     <HStack px={"10px"} gap={"5px"}>
       <Image
-        src={mainReason.user.avatar_url}
-        alt={mainReason.user.nickname}
+        src={priorityUser.avatar_url}
+        alt={priorityUser.nickname}
         width={22}
         height={22}
         borderRadius={"50%"}
       />
       <Text>
         <Link href={userUrl} fontWeight={"bold"} color={"#ffef00"} isExternal>
-          {mainReason.user.nickname}
+          {priorityUser.nickname}
         </Link>
         さんの
         <Link href={listUrl} fontWeight={"bold"} color={"#00ffff"} isExternal>

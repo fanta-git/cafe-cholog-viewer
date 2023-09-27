@@ -38,7 +38,7 @@ export type ReasonFavorite = {
 
 export type SelectReasons = ReasonPriority | ReasonPlaylist | ReasonFavorite;
 
-export type SelectReasonsWithComment = ReasonPriorityWithComment | ReasonPlaylist | ReasonFavorite;
+export type SelectReasonsWithComment = ReasonPriorityWithComment | SelectReasons;
 
 export type NicovideoData = {
   video_id: string,

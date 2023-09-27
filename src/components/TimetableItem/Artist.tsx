@@ -1,8 +1,8 @@
 import { Link } from "@/chakra-ui/next-js";
-import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
+import { TimetableSong } from "@/foundations/fetchTimetable";
 
 type Props = {
-  song: RetrunCafeSongWithComment;
+  song: TimetableSong;
 };
 
 export default function Artist (props: Props) {

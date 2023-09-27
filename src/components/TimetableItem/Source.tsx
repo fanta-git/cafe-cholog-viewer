@@ -1,10 +1,10 @@
 import { MdOpenInNew } from "@/chakra-ui/mdIcons";
 import { Link } from "@/chakra-ui/next-js";
 import { Center, Icon } from "@/chakra-ui/react";
-import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
+import { TimetableSong } from "@/foundations/fetchTimetable";
 
 type Props = {
-  song: RetrunCafeSongWithComment;
+  song: TimetableSong;
 };
 
 export default function Source (props: Props) {

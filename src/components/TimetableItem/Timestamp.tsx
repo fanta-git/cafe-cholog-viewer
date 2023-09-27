@@ -1,9 +1,9 @@
 import { Center } from "@/chakra-ui/react";
-import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
+import { TimetableSong } from "@/foundations/fetchTimetable";
 import { getTimestampStr } from "@/util/time";
 
 type Props = {
-  song: RetrunCafeSongWithComment;
+  song: TimetableSong;
 };
 
 export default function Timestamp (props: Props) {

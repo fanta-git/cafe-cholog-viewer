@@ -1,5 +1,5 @@
 import { Grid, GridItem, HStack } from "@/chakra-ui/react";
-import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
+import { TimetableSong } from "@/foundations/fetchTimetable";
 import Artist from "./Artist";
 import FavCount from "./FavCount";
 import Reason from "./Reason";
@@ -10,7 +10,7 @@ import Timestamp from "./Timestamp";
 import Title from "./Title";
 
 type Props = {
-  song: RetrunCafeSongWithComment;
+  song: TimetableSong;
 };
 
 export default function SongCard (props: Props) {

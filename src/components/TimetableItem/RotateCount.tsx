@@ -1,14 +1,14 @@
 import { HStack, Mark, Text } from "@/chakra-ui/react";
-import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
+import { TimetableSong } from "@/foundations/fetchTimetable";
 
 type Props = {
-  song: RetrunCafeSongWithComment;
+  song: TimetableSong;
 };
 
 export default function RotateCount (props: Props) {
   const { song } = props;
 
-  const rotateCount = 10 as number;
+  const rotateCount = song.rotateUsers?.length ?? 0;
 
   if (rotateCount === 0) return <></>;
 
