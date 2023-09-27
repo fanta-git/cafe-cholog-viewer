@@ -1,5 +1,6 @@
-import { Image } from "@/chakra-ui/next-js";
-import { HStack, Link, Text } from "@/chakra-ui/react";
+import { Link } from "@/chakra-ui/next-js";
+import { HStack, Text } from "@/chakra-ui/react";
+import Image from "@/components/Image";
 import { RetrunCafeSongWithComment } from "@/types/kiiteapi";
 
 type Props = {
@@ -14,7 +15,7 @@ export default function Reason (props: Props) {
   const hasUserData = mainReason.type === "priority_playlist" && mainReason.user != null;
   if (!hasUserData) return;
 
-  const userUrl = `https://kiite.jp/user/${mainReason.user.id}`;
+  const userUrl = `https://kiite.jp/user/${mainReason.user.user_name}`;
   const listUrl = `https://kiite.jp/playlist/${mainReason.list_id}`;
 
   return (

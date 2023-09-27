@@ -14,7 +14,7 @@ export default function Source (props: Props) {
 
   return (
     <Center w={"100%"} h={"100%"}>
-      <Link href={searchUrl} color={"#aaaaaa"} _hover={{ color: "#ffffff" }}>
+      <Link href={searchUrl} color={"#aaaaaa"} _hover={{ color: "#ffffff" }} isExternal>
         <Icon boxSize={5} as={MdOpenInNew} />
       </Link>
     </Center>

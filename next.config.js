@@ -21,6 +21,14 @@ const nextConfig = {
       },
     ],
   },
+  async rewrites() {
+    return [
+      {
+        source: "/@cafe-api/:path*",
+        destination: "https://cafe.kiite.jp/api/:path*",
+      },
+    ];
+  }
 };
 
 module.exports = nextConfig;
