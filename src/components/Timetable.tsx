@@ -1,29 +1,27 @@
 "use client";
 
-import { VStack } from "@/chakra-ui/react";
 import fetchTimetable from "@/foundations/fetchTimetable";
+import { VStack } from "@chakra-ui/react";
+import { useQuery } from "@tanstack/react-query";
 import { useEffect } from "react";
-import { useQuery } from "react-query";
 import TimetableItem from "./TimetableItem";
 
 export default function Timetable () {
-  const { data: timetable, refetch } = useQuery("timetable", fetchTimetable, {
+  const { data: timetable, refetch } = useQuery(["timetable"], fetchTimetable, {
     cacheTime: Infinity,
-    staleTime: Infinity
+    staleTime: Infinity,
+    suspense: true,
   });
 
-  const endDuration = timetable && new Date(timetable[0].start_time).getTime() + timetable[0].msec_duration + 5e3 - Date.now();
+  if (timetable === undefined) throw Error("dammy");
+  const endTime = Date.parse(timetable[0].start_time) + timetable[0].msec_duration;
 
   useEffect(() => {
-    if (endDuration === undefined) return;
-    const timeout = setTimeout(() => {
-      refetch();
-    }, endDuration);
+    const endUntilTime = endTime - Date.now() + 5e3;
+    const timeout = setTimeout(refetch, endUntilTime);
 
     return () => clearTimeout(timeout);
-  }, [endDuration, refetch]);
-
-  if (timetable === undefined) return (<>Loading...</>);
+  }, [endTime, refetch]);
 
   return (
     <VStack w={"100%"}>

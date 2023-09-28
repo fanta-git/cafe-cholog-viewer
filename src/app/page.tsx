@@ -1,8 +1,7 @@
-import Timetable from "@/components/Timetable";
+import Main from "@/components/Main";
 
 export default function Home() {
-
   return (
-    <Timetable />
+    <Main />
   );
 }
