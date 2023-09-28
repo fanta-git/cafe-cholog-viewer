@@ -1,4 +1,5 @@
 import { RetrunCafeSongWithComment, User } from "@/types/kiiteapi";
+import axios from "axios";
 
 export type TimetableSong = RetrunCafeSongWithComment & {
   rotateUsers?: number[];
@@ -6,16 +7,22 @@ export type TimetableSong = RetrunCafeSongWithComment & {
 };
 
 export default async function fetchTimetable (): Promise<TimetableSong[]> {
-  const timetable: RetrunCafeSongWithComment[] = await fetch("/@cafe-api/cafe/timetable?limit=10&with_comment=1")
-    .then((res) => res.json());
-  const rotateUsers: Record<string, number[] | undefined> = await fetch(`/@cafe-api/cafe/rotate_users?ids=${timetable.map(v => v.id)}`)
-    .then((res) => res.json());
+  const { data: timetable } = await axios.get<RetrunCafeSongWithComment[]>("/@cafe-api/cafe/timetable", {
+    params: {
+      limit: 10,
+      with_comment: 1
+    }
+  });
+  const { data: rotateUsers } = await axios.get<Record<string, number[] | undefined>>("/@cafe-api/cafe/rotate_users", {
+    params: { ids: timetable.map(v => v.id).join(",") }
+  });
 
   const priorityUserIds = [...new Set(timetable.flatMap(({ reasons: [mainReason] }) =>
     mainReason.type === "priority_playlist" ? [mainReason.user_id] : []
   ))];
-  const priorityUsersArr: User[] = await fetch(`/@cafe-api/kiite_users?user_ids=${priorityUserIds}`)
-    .then((res) => res.json());
+  const { data: priorityUsersArr } = await axios.get<User[]>("/@cafe-api/kiite_users", {
+    params: { user_ids: priorityUserIds.join(",") }
+  });
   const users = new Map(priorityUsersArr.map(v => [v.user_id, v]));
 
   return timetable.map(v => ({
