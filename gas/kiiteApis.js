@@ -32,19 +32,19 @@ const fetchApi = (url, param) => {
 };
 
 /**
- * Merges additional data into a timetable array.
- * @param {TimetableItem[]} timetable - The timetable array to merge data into.
- * @returns {(TimetableItem & Parse<TimetableItem, "baseinfo"> & { rotate_users: number[] | null, fav_count: number })[]} - The merged timetable array with additional data.
+ * Fetches the timetable data from the Kiite API.
+ * @returns {TimetableItemWithDetail[]} - The timetable data.
  */
-const mergeTimetableDetails = (timetable) => {
+const fetchTimetable = () => {
+  const timetable = fetchApi("/api/cafe/timetable", { limit: 100 });
   const rotateUsers = fetchApi("/api/cafe/rotate_users", { ids: timetable.map(v => v.id) });
   const kiiteSongData = fetchApi("/api/sns/songs", { video_ids: timetable.map(v => v.video_id) });
-  const songsDataArr = Object.values(kiiteSongData.songs);
-  const parsed = timetable.map(v => parseNest(v, /** @type {const} */ ("baseinfo")));
-  const merged = parsed.map(v => ({
+  const kiiteSongDataMap = new Map(Object.values(kiiteSongData.songs).map(v => [v.video_id, v]));
+
+  const merged = timetable.map(v => ({
     ...v,
     rotate_users: rotateUsers[v.id] ?? null,
-    fav_count: songsDataArr.find(song => song.video_id === v.video_id)?.fav_count ?? 0
+    fav_count: kiiteSongDataMap.get(v.video_id)?.fav_count ?? 0
   }));
   return merged;
 };

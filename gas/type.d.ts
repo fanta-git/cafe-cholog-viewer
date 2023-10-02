@@ -84,3 +84,8 @@ type Parse<T extends Record<string | number, any>, V extends keyof T> =
   T extends { [K in V]: { [K in infer U]: any} }
     ? T & { [K in Join<V, U>]: T[V][UnJoin<K>] }
     : never;
+
+type TimetableItemWithDetail = TimetableItem & {
+  rotate_users: number[] | null,
+  fav_count: number,
+};

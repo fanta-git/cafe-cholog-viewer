@@ -7,33 +7,30 @@
 function main () {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
 
-  const leatestSheet = ss.getSheets().find(v => v.getName().startsWith("timetable"));
-  const lastRow = leatestSheet?.getLastRow() ?? 0;
-  const lastId = lastRow > 1 ? leatestSheet?.getRange(lastRow, 1).getValue() : 0;
-  const timetable = fetchApi("/api/cafe/timetable", { limit: 100 })
-    .filter(v => v.id > lastId)
-    .reverse();
+  const timetable = fetchTimetable().reverse();
   timetable.pop();
 
-  const monthly = group(
-    mergeTimetableDetails(timetable),
-    v => formatSheetName(v.start_time)
-  );
+  const monthly = group(timetable, v => formatSheetName(v.start_time));
 
   for (const [sheetName, monthlyTimetable] of Object.entries(monthly)) {
     const sheet = ss.getSheetByName(sheetName) ?? insertSheet(ss, sheetName);
-    const startRow = sheet.getLastRow() + 1;
+    const lastRow = sheet.getLastRow();
+    const lastId = lastRow > 1
+      ? /** @type {number} */ (sheet.getRange(lastRow, 1).getValue())
+      : 0;
+    const newSongs = monthlyTimetable.filter(v => v.id > lastId);
+    if (newSongs.length === 0) continue;
 
-    /** @type {(number | string)[][]} */
-    const writeData = monthlyTimetable.map(v => ROWS.map(k =>
-      FORMAT_TYPES[k.format].func(v[k.title])
-    ));
-
-    for (const [index, { format }] of /** @type {IterableIterator<[number, typeof ROWS[number]]>} */ ROWS.entries()) {
-      const formatStr = FORMAT_TYPES[format].str;
-      sheet.getRange(startRow, index + 1, writeData.length, 1).setNumberFormat(formatStr);
+    for (const [index, { format }] of ROWS.entries()) {
+      sheet
+        .getRange(lastRow + 1, index + 1, newSongs.length, 1)
+        .setNumberFormat(FORMAT_TYPES[format].str);
     }
 
-    sheet.getRange(startRow, 1, writeData.length, writeData[0].length).setValues(writeData);
+    const writeData = newSongs.map(v => ROWS.map(({ format, trimmer, label }) =>
+      FORMAT_TYPES[format].func(trimmer ? trimmer(v) : v[label])
+    ));
+
+    sheet.getRange(lastRow + 1, 1, writeData.length, writeData[0].length).setValues(writeData);
   }
 }

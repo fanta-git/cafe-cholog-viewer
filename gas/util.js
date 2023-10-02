@@ -23,19 +23,6 @@ const group = (objs, keyFunc) => {
 };
 
 /**
- * Parses a nested object and flattens it into a single-level object.
- * @template T
- * @template K
- * @param {T} obj - The object to parse.
- * @param {K} key - The key of the nested object to parse.
- * @returns {Parse<T, K>} - The parsed object.
- */
-const parseNest = (obj, key) => {
-  const entries = Object.entries(obj[key]).map(([k, v]) => [`${String(key)}.${k}`, v]);
-  return ({ ...obj, ...Object.fromEntries(entries) });
-};
-
-/**
  * Converts a nullable value to a string representation.
  * @param {*} val - The value to convert.
  * @returns {string} - The string representation of the value.
@@ -54,7 +41,7 @@ const nullableToStr = (val) => {
  */
 const formatSheetName = (dataStr) => {
   const date = new Date(dataStr);
-  const yy = date.getFullYear().toString();
+  const yyyy = date.getFullYear().toString();
   const mm = (date.getMonth() + 1).toString().padStart(2, "0");
-  return `timetable_${yy}_${mm}`;
+  return `${yyyy}-${mm}`;
 };

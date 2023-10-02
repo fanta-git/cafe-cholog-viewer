@@ -10,6 +10,6 @@
 const insertSheet = (spreadSheet, name) => {
   const newSheet = spreadSheet.insertSheet();
   newSheet.setName(name);
-  newSheet.getRange(1, 1, 1, ROWS.length).setValues([ROWS.map(v => v.title)]);
+  newSheet.getRange(1, 1, 1, ROWS.length).setValues([ROWS.map(v => v.label)]);
   return newSheet;
 };
