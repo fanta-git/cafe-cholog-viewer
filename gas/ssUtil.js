@@ -8,8 +8,7 @@
  * @returns {GoogleAppsScript.Spreadsheet.Sheet} The newly created sheet.
  */
 const insertSheet = (spreadSheet, name) => {
-  const newSheet = spreadSheet.insertSheet();
-  newSheet.setName(name);
+  const newSheet = spreadSheet.insertSheet(name, 0);
   newSheet.getRange(1, 1, 1, ROWS.length).setValues([ROWS.map(v => v.label)]);
   return newSheet;
 };
