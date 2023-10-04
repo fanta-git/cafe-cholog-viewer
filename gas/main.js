@@ -24,11 +24,11 @@ function main () {
     for (const [index, { format }] of ROWS.entries()) {
       sheet
         .getRange(lastRow + 1, index + 1, newSongs.length, 1)
-        .setNumberFormat(FORMAT_TYPES[format].str);
+        .setNumberFormat(format.str);
     }
 
     const writeData = newSongs.map(v => ROWS.map(({ format, trimmer, label }) =>
-      FORMAT_TYPES[format].func(trimmer ? trimmer(v) : selectObj(v, label))
+      format.func(trimmer ? trimmer(v) : selectObj(v, label))
     ));
 
     sheet.getRange(lastRow + 1, 1, writeData.length, writeData[0].length).setValues(writeData);

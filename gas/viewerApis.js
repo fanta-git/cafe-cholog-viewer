@@ -22,10 +22,11 @@ function doGet(e) {
     const dates = sheet.getRange(2, dateRow, lastRow).getValues().flat();
     const boundary = findFirstIndexAfter(dates, date);
 
-    const result = sheet.getRange(boundary + 2, 1, 100, ROWS.length).getValues();
+    const rangeEnd = Math.min(100, lastRow - (boundary + 1));
+    const result = sheet.getRange(boundary + 2, 1, rangeEnd, ROWS.length).getValues();
     const resultObj = result.map(row =>
-      row.reduce((res, item, i) => (
-        setObj(res, ROWS[i].label, item)
+      ROWS.reduce((res, { label, format }, i) => (
+        setObj(res, label, "revFunc" in format ? format.revFunc(row[i]) : row[i])
       ), {})
     );
 

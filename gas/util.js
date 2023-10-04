@@ -94,3 +94,15 @@ const setObj = (obj, key, val) => {
   lastObj[lastKey] = val;
   return obj;
 };
+
+/**
+ * @param {string} dateStr
+ * @returns {string}
+ */
+const formatISO = (dateStr) => {
+  return Utilities.formatDate(
+    new Date(dateStr),
+    "Asia/Tokyo",
+    "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
+  );
+};
