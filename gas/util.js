@@ -1,7 +1,5 @@
-/**
- * Utility functions for cafe-cholog-viewer project.
- * @module util
- */
+// @ts-check
+/// <reference path="./type.d.ts" />
 
 /**
  * Groups an array of objects by a key function.
@@ -44,4 +42,55 @@ const formatSheetName = (dataStr) => {
   const yyyy = date.getFullYear().toString();
   const mm = (date.getMonth() + 1).toString().padStart(2, "0");
   return `${yyyy}-${mm}`;
+};
+
+/**
+ * 与えられた日付の配列のうち、目的の日付以降の最初の日付のインデックスを返す。
+ * @param {string[]} dates - 日付の配列
+ * @param {string} targetDate - 目的の日付
+ * @returns {number} - 目的の日付以降の最初の日付のインデックス
+ */
+const findFirstIndexAfter = (dates, targetDate) => {
+  const targetMs = Date.parse(targetDate);
+  let first = -1, last = dates.length;
+
+  while (first + 1 < last) {
+    const mid = (last + first) / 2 | 0;
+    if (Date.parse(dates[mid]) < targetMs) {
+      first = mid;
+    } else {
+      last = mid;
+    }
+  }
+  return last;
+};
+
+/**
+ * @type {SelectObj}
+ * @param {Record<string, any>} obj
+ * @param {string} key
+**/
+const selectObj = (obj, key) => {
+  if (key in obj) return obj[key];
+  const keys = key.split(".");
+  return keys.reduce((current, key) => current == null ? undefined : current[key], obj);
+};
+
+/**
+ * @type {SetObj}
+ * @param {Record<string, any>} obj
+ * @param {string} key
+ * @param {any} val
+ * @returns {Record<string, any>}
+**/
+const setObj = (obj, key, val) => {
+  const keys = key.split(".");
+  const lastKey = keys.pop();
+  if (lastKey == null) return obj;
+  const lastObj = keys.reduce((current, key) => {
+    if (current[key] == null) current[key] = {};
+    return current[key];
+  }, obj);
+  lastObj[lastKey] = val;
+  return obj;
 };

@@ -89,3 +89,17 @@ type TimetableItemWithDetail = TimetableItem & {
   rotate_users: number[] | null,
   fav_count: number,
 };
+
+type SelectObj = {
+  <T extends Record<string, any>, K extends keyof T, L extends keyof T[K], M extends keyof T[K][L]>(obj: T, key: `${K}.${L}.${M}`): T[K][L][M];
+  <T extends Record<string, any>, K extends keyof T, L extends keyof T[K]>(obj: T, key: `${K}.${L}`): T[K][L];
+  <T extends Record<string, any>, K extends keyof T>(obj: T, key: K): T[K];
+  <T extends Record<string, any>>(obj: T, key: string): any;
+};
+
+type SetObj = {
+  <T extends Record<string, any>, K extends keyof T, L extends keyof T[K], M extends keyof T[K][L]>(obj: T, key: `${K}.${L}.${M}`, val: T[K][L][M]): T;
+  <T extends Record<string, any>, K extends keyof T, L extends keyof T[K]>(obj: T, key: `${K}.${L}`, val: T[K][L]): T;
+  <T extends Record<string, any>, K extends keyof T>(obj: T, key: K, val: T[K]): T;
+  <T extends Record<string, any>>(obj: T, key: string, val: any): T;
+};

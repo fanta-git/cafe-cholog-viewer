@@ -43,7 +43,7 @@ const FORMAT_TYPES = {
 
 /**
  * @typedef SheetRowShort
- * @property {string} label
+ * @property {keyof TimetableItemWithDetail | `${keyof TimetableItemWithDetail}.${string}`} label
  * @property {keyof typeof FORMAT_TYPES} format
  */
 
@@ -52,6 +52,7 @@ const FORMAT_TYPES = {
  * @property {string} label
  * @property {keyof typeof FORMAT_TYPES} format
  * @property {(v: TimetableItemWithDetail) => any} trimmer
+ * @property {(v: string | number, resObj: any) => void} [marger]
  */
 
 /** @satisfies {(SheetRowShort | SheetRowLong)[]} */
@@ -133,82 +134,66 @@ const ROWS = [
   /** @type {const} */ ({
     label: "baseinfo.video_id",
     format: "string",
-    trimmer: v => v.baseinfo.video_id
   }),
   /** @type {const} */ ({
     label: "baseinfo.title",
     format: "string",
-    trimmer: v => v.baseinfo.title
   }),
   /** @type {const} */ ({
     label: "baseinfo.first_retrieve",
     format: "date",
-    trimmer: v => v.baseinfo.first_retrieve
   }),
   /** @type {const} */ ({
     label: "baseinfo.description",
     format: "string",
-    trimmer: v => v.baseinfo.description
   }),
   /** @type {const} */ ({
     label: "baseinfo.genre",
     format: "string",
-    trimmer: v => v.baseinfo.genre
   }),
   /** @type {const} */ ({
     label: "baseinfo.length",
     format: "length",
-    trimmer: v => v.baseinfo.length
   }),
   /** @type {const} */ ({
     label: "baseinfo.tags",
     format: "list",
-    trimmer: v => v.baseinfo.tags
   }),
   /** @type {const} */ ({
     label: "baseinfo.thumbnail_url",
     format: "string",
-    trimmer: v => v.baseinfo.thumbnail_url
   }),
   /** @type {const} */ ({
     label: "baseinfo.view_counter",
     format: "number",
-    trimmer: v => v.baseinfo.view_counter
   }),
   /** @type {const} */ ({
     label: "baseinfo.comment_num",
     format: "number",
-    trimmer: v => v.baseinfo.comment_num
   }),
   /** @type {const} */ ({
     label: "baseinfo.mylist_counter",
     format: "number",
-    trimmer: v => v.baseinfo.mylist_counter
   }),
   /** @type {const} */ ({
     label: "baseinfo.embeddable",
     format: "number",
-    trimmer: v => v.baseinfo.embeddable
   }),
   /** @type {const} */ ({
     label: "baseinfo.no_live_play",
     format: "number",
-    trimmer: v => v.baseinfo.no_live_play
   }),
   /** @type {const} */ ({
     label: "baseinfo.user_id",
     format: "id",
-    trimmer: v => v.baseinfo.user_id
   }),
   /** @type {const} */ ({
     label: "baseinfo.user_icon_url",
     format: "string",
-    trimmer: v => v.baseinfo.user_icon_url
   }),
   /** @type {const} */ ({
     label: "baseinfo.user_nickname",
     format: "string",
-    trimmer: v => v.baseinfo.user_nickname
   }),
   /** @type {const} */ ({
     label: "colors",

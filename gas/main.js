@@ -28,7 +28,7 @@ function main () {
     }
 
     const writeData = newSongs.map(v => ROWS.map(({ format, trimmer, label }) =>
-      FORMAT_TYPES[format].func(trimmer ? trimmer(v) : v[label])
+      FORMAT_TYPES[format].func(trimmer ? trimmer(v) : selectObj(v, label))
     ));
 
     sheet.getRange(lastRow + 1, 1, writeData.length, writeData[0].length).setValues(writeData);
