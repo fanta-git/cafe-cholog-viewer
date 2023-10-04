@@ -38,6 +38,12 @@ const FORMAT_TYPES = {
     func: v => v?.join?.(" ") ?? "null",
     revFunc: v => v === "null" ? null : v.split(" ")
   },
+  bool: {
+    str: "@",
+    /** @type {(v: any) => string} */
+    func: v => String(v),
+    revFunc: v => v === "null" ? null : v === "true"
+  },
   date: {
     str: "yyyy-MM-dd h:mm:ss.000",
     /** @type {(v: any) => string} */
@@ -227,7 +233,7 @@ const ROWS = [
   }),
   /** @type {const} */ ({
     label: "display_playlist_link",
-    format: FORMAT_TYPES.string
+    format: FORMAT_TYPES.bool
   }),
   /** @type {const} */ ({
     label: "fav_count",
