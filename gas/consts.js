@@ -30,7 +30,8 @@ const FORMAT_TYPES = {
   length: {
     str: "m:ss",
     /** @type {(v: any) => string} */
-    func: v => ["00", ...String(v ?? "0:00").split(":")].slice(-3).map(v => v.padStart(2, "0")).join(":")
+    func: v => ["00", ...String(v ?? "0:00").split(":")].slice(-3).map(v => v.padStart(2, "0")).join(":"),
+    revFunc: v => formatLength(v)
   },
   list: {
     str: "@",

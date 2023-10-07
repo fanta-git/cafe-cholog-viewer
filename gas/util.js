@@ -106,3 +106,15 @@ const formatISO = (dateStr) => {
     "yyyy-MM-dd'T'HH:mm:ss.SSSXXX"
   );
 };
+
+/**
+ * @param {string} lengthStr
+ * @returns {string}
+ */
+const formatLength = (lengthStr) => {
+  return Utilities.formatDate(
+    new Date(lengthStr),
+    "Asia/Tokyo",
+    "m:ss"
+  );
+};
