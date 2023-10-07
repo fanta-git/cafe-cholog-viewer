@@ -1,3 +1,17 @@
+type SelectReason = {
+  type: "priority_playlist";
+  user_id: number;
+  list_title: string;
+  list_id: string;
+} | {
+  type: "add_playlist";
+  user_id: number;
+  list_id: number;
+} | {
+  type: "favorite";
+  user_id: number;
+};
+
 type TimetableItem = {
   id: number,
   video_id: string,
@@ -10,19 +24,7 @@ type TimetableItem = {
   request_user_ids: number[],
   created_at: string,
   updated_at: string,
-  reasons: ({
-    type: "priority_playlist",
-    user_id: number,
-    list_title: string,
-    list_id: string
-  } | {
-    type: "add_playlist",
-    user_id: number,
-    list_id: number
-  } | {
-    type: "favorite",
-    user_id: number
-  })[],
+  reasons: SelectReason[],
   thumbnail: string,
   new_fav_user_ids: number[] | null,
   baseinfo: {
