@@ -7,7 +7,7 @@ function convertData() {
   const ss = SpreadsheetApp.getActiveSpreadsheet();
 
   /** @param {string} item */
-  const getLength = item => item ? item.length : 0;
+  const getLength = item => item ? item.split(" ").length : 0;
 
   let skip = 9;
 
