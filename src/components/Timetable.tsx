@@ -1,16 +1,61 @@
-import fetchTimetable from "@/foundations/fetchTimetable";
-import { VStack } from "@chakra-ui/react";
-import TimetableItem from "./TimetableItem";
-import fetchTimetableLog from "@/foundations/fetchTimetableLog";
+"use client";
 
-export default async function Timetable () {
-  const timetable = await fetchTimetableLog("2023-10-01T00:00:00+09:00");
+import fetchTimetable, { TimetableSong } from "@/foundations/fetchTimetable";
+import fetchTimetableLog from "@/foundations/fetchTimetableLog";
+import { Button, Spinner, VStack } from "@chakra-ui/react";
+import { useCallback, useLayoutEffect, useRef, useState } from "react";
+import TimetableItem from "./TimetableItem";
+
+type NewType = {
+  isLogdata: false;
+  song: TimetableSong;
+} | {
+  isLogdata: true;
+  song: ViewerApiResult;
+};
+
+export default function Timetable () {
+  const [items, setItems] = useState<NewType[]>([]);
+  const [isFetching, setIsFetching] = useState(true);
+
+  const isFirst = useRef(true);
+  const onClick = useCallback(() => {
+    const lastItem = items.at(-1);
+    if (!lastItem) return;
+    setIsFetching(true);
+    fetchTimetableLog(lastItem.song.start_time, 100)
+      .then(timetable => (
+        setItems(v => [
+          ...v,
+          ...timetable.map(v => ({ isLogdata: true, song: v } as const))
+        ])
+      ))
+      .then(() => setIsFetching(false));
+  }, [items]);
+
+  useLayoutEffect(() => {
+    if (!isFirst.current) return;
+    isFirst.current = false;
+
+    fetchTimetable(100)
+      .then(timetable => (
+        setItems(v => [
+          ...v,
+          ...timetable.map(v => ({ isLogdata: false, song: v } as const))
+        ])
+      ))
+      .then(() => setIsFetching(false));
+  }, []);
 
   return (
     <VStack w={"100%"}>
-      {timetable.map(v => (
-        <TimetableItem key={v.id} isLogdata={true} song={v} />
-      ))}
+      {items.map((v, i) =>
+        <TimetableItem key={i} {...v} />
+      )}
+      {isFetching
+        ? <Spinner />
+        : <Button onClick={onClick}>もっと読み込む</Button>
+      }
     </VStack>
   );
 }

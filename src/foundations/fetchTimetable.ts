@@ -6,10 +6,10 @@ export type TimetableSong = RetrunCafeSongWithComment & {
   priorityUser?: User;
 };
 
-export default async function fetchTimetable (): Promise<TimetableSong[]> {
+export default async function fetchTimetable (limit: number = 10): Promise<TimetableSong[]> {
   const { data: timetable } = await axios.get<RetrunCafeSongWithComment[]>("https://cafe.kiite.jp/api/cafe/timetable", {
     params: {
-      limit: 10,
+      limit,
       with_comment: 1
     }
   });
