@@ -28,16 +28,20 @@ function test () {
   const res = doGet({
     contextPath: "",
     contentLength: -1,
-    pathInfo: "date",
-    queryString: "date=2023-09-30T23%3A55%3A00",
+    pathInfo: "",
+    queryString: "type=date&date=2023-10-01T00%3A05%3A00",
     parameters: {
+      type: [
+        "date"
+      ],
       date: [
-       "2023-09-30T23:55:00"
+       "2023-10-01T00:05:00"
       ]
     },
     parameter: {
-      date: "2023-09-30T23:55:00"
+      type: "date",
+      date: "2023-10-01T00:05:00"
     }
   });
-  Logger.log(JSON.parse(res.getContent()).length);
+  Logger.log(/** @type {any[]} */(JSON.parse(res.getContent())).map(v => v.title));
 }

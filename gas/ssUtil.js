@@ -17,11 +17,13 @@ const insertSheet = (spreadSheet, name) => {
  * @param {GoogleAppsScript.Spreadsheet.Spreadsheet} ss
  * @param {GoogleAppsScript.Spreadsheet.Sheet} sheet
  */
-const getNextSheet = (ss, sheet) => {
+const getPrevSheet = (ss, sheet) => {
   const sheetName = sheet.getName();
   const [year, month] = sheetName.split("-").map(Number);
-  const months = year * 12 + month;
-  return ss.getSheetByName(`${months / 12 | 0}-${months % 12 + 1}`);
+  const months = year * 12 + month - 2;
+  const prevYear = String(months / 12 | 0).padStart(4, "0");
+  const prevMonth = String(months % 12 + 1).padStart(2, "0");
+  return ss.getSheetByName(`${prevYear}-${prevMonth}`);
 };
 
 /**
@@ -32,10 +34,9 @@ const getNextSheet = (ss, sheet) => {
  * @returns {ViewerApiResult[]}
  */
 const getTimetableData = (ss, sheet, startRow, length) => {
-  const lastRow = sheet.getLastRow();
-  const lengthToGet = Math.min(length, lastRow - startRow + 1);
+  const lengthToGet = Math.min(startRow - 1, length);
   const data = lengthToGet > 0
-    ? sheet.getRange(startRow, 1, lengthToGet, ROWS.length).getValues()
+    ? sheet.getRange(startRow - lengthToGet + 1, 1, lengthToGet, ROWS.length).getValues().reverse()
     : [];
 
   const result = data.map(row =>
@@ -45,9 +46,10 @@ const getTimetableData = (ss, sheet, startRow, length) => {
   );
 
   if (result.length < length) {
-    const nextSheet = getNextSheet(ss, sheet);
-    if (nextSheet) {
-      const nextData = getTimetableData(ss, nextSheet, 2, length - result.length);
+    const prevSheet = getPrevSheet(ss, sheet);
+    if (prevSheet) {
+      const lastRow = prevSheet.getLastRow();
+      const nextData = getTimetableData(ss, prevSheet, lastRow, length - result.length);
       return result.concat(nextData);
     }
   }
@@ -68,7 +70,7 @@ const getTimetableDataByDate = (ss, dateStr, length) => {
   const lastRow = sheet.getLastRow();
   const dateRow = ROWS.findIndex(v => v.label === "start_time") + 1;
   const dates = sheet.getRange(2, dateRow, lastRow).getValues().flat();
-  const boundary = findFirstIndexAfter(dates, dateStr);
+  const boundaryRow = lowerBoundDate(dates, dateStr) + 2;
 
-  return getTimetableData(ss, sheet, boundary + 2, length);
+  return getTimetableData(ss, sheet, boundaryRow - 1, length);
 };

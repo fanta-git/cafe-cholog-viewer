@@ -45,24 +45,41 @@ const formatSheetName = (dataStr) => {
 };
 
 /**
- * 与えられた日付の配列のうち、目的の日付以降の最初の日付のインデックスを返す。
- * @param {string[]} dates - 日付の配列
- * @param {string} targetDate - 目的の日付
- * @returns {number} - 目的の日付以降の最初の日付のインデックス
+ * @param {string[]} dates
+ * @param {string} targetDate
+ * @returns {number}
  */
-const findFirstIndexAfter = (dates, targetDate) => {
+const lowerBoundDate = (dates, targetDate) => {
   const targetMs = Date.parse(targetDate);
-  let first = -1, last = dates.length;
-
-  while (first + 1 < last) {
-    const mid = (last + first) / 2 | 0;
-    if (Date.parse(dates[mid]) < targetMs) {
-      first = mid;
+  let first = 0, last = dates.length - 1, middle;
+  while (first <= last) {
+    middle = (first + last) / 2 | 0;
+    if (Date.parse(dates[middle]) < targetMs) {
+      first = middle + 1;
     } else {
-      last = mid;
+      last = middle - 1;
     }
   }
-  return last;
+  return first;
+};
+
+/**
+ * @param {string[]} dates
+ * @param {string} targetDate
+ * @returns {number}
+ */
+const upperBoundDate = (dates, targetDate) => {
+  const targetMs = Date.parse(targetDate);
+  let first = 0, last = dates.length - 1, middle;
+  while (first <= last) {
+    middle = (first + last) / 2 | 0;
+    if (Date.parse(dates[middle]) <= targetMs) {
+      first = middle + 1;
+    } else {
+      last = middle - 1;
+    }
+  }
+  return first;
 };
 
 /**
