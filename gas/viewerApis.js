@@ -9,27 +9,11 @@
 function doGet(e) {
   const { parameter, pathInfo } = e;
   const ss = SpreadsheetApp.getActiveSpreadsheet();
+  const length = Number(parameter.length ?? 10);
 
   if (pathInfo === "date") {
     const { date } = parameter;
-    const sheetName = formatSheetName(date);
-    const sheet = ss.getSheetByName(sheetName);
-    if (!sheet) return ContentService.createTextOutput()
-      .setMimeType(ContentService.MimeType.JSON)
-      .setContent(JSON.stringify([]));
-    const lastRow = sheet.getLastRow();
-    const dateRow = ROWS.findIndex(v => v.label === "start_time") + 1;
-    const dates = sheet.getRange(2, dateRow, lastRow).getValues().flat();
-    const boundary = findFirstIndexAfter(dates, date);
-
-    const rangeEnd = Math.min(100, lastRow - (boundary + 1));
-    const result = sheet.getRange(boundary + 2, 1, rangeEnd, ROWS.length).getValues();
-    const resultObj = result.map(row =>
-      ROWS.reduce((res, { label, format }, i) => (
-        setObj(res, label, "revFunc" in format ? format.revFunc(row[i]) : row[i])
-      ), {})
-    );
-
+    const resultObj = getTimetableDataByDate(ss, date, length);
     return ContentService.createTextOutput()
       .setMimeType(ContentService.MimeType.JSON)
       .setContent(JSON.stringify(resultObj));
@@ -38,4 +22,22 @@ function doGet(e) {
   return ContentService.createTextOutput()
     .setMimeType(ContentService.MimeType.JSON)
     .setContent(JSON.stringify(e));
+}
+
+function test () {
+  const res = doGet({
+    contextPath: "",
+    contentLength: -1,
+    pathInfo: "date",
+    queryString: "date=2023-09-30T23%3A55%3A00",
+    parameters: {
+      date: [
+       "2023-09-30T23:55:00"
+      ]
+    },
+    parameter: {
+      date: "2023-09-30T23:55:00"
+    }
+  });
+  Logger.log(JSON.parse(res.getContent()).length);
 }

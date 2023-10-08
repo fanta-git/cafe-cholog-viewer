@@ -54,6 +54,21 @@ type TimetableItem = {
   display_playlist_link: boolean
 };
 
+type SnsSongData = {
+  song_id: number;
+  song_unique: string;
+  song_title: string;
+  song_link: string;
+  video_id: string;
+  is_faved: boolean;
+  fav_count: number;
+  creator_id: number;
+  creator_unique: string;
+  creator_name: string;
+  creator_link: string;
+  thumbnail: string;
+};
+
 type SnsSongs = {
   status: string,
   user: {
@@ -63,20 +78,7 @@ type SnsSongs = {
     avatar_url: string,
     status: string
   },
-  songs: Record<number, {
-    song_id: number,
-    song_unique: string,
-    song_title: string,
-    song_link: string,
-    video_id: string,
-    is_faved: boolean,
-    fav_count: number,
-    creator_id: number,
-    creator_unique: string,
-    creator_name: string,
-    creator_link: string,
-    thumbnail: string
-  }>
+  songs: Record<number, SnsSongData>
 };
 
 type Join<K, P> = K extends string | number ? P extends string | number ? `${K}.${P}` : never : never
@@ -104,4 +106,49 @@ type SetObj = {
   <T extends Record<string, any>, K extends keyof T, L extends keyof T[K]>(obj: T, key: `${K}.${L}`, val: T[K][L]): T;
   <T extends Record<string, any>, K extends keyof T>(obj: T, key: K, val: T[K]): T;
   <T extends Record<string, any>>(obj: T, key: string, val: any): T;
+};
+
+type ViewerApiResult = {
+  id: number,
+  video_id: string,
+  title: string,
+  artist_id: number,
+  artist_name: string,
+  start_time: string,
+  msec_duration: number,
+  published_at: string,
+  request_users_count: number,
+  created_at: string,
+  updated_at: string,
+  reasons_priority_count: number,
+  reasons_add_playlist_count: number,
+  reasons_favorite_count: number,
+  thumbnail: string,
+  new_fav_users_count: number,
+  rotate_users_count: number,
+  baseinfo: {
+    video_id: string,
+    title: string,
+    first_retrieve: string,
+    description: string,
+    genre: string,
+    length: string,
+    tags: string[],
+    thumbnail_url: string,
+    view_counter: string,
+    comment_num: string,
+    mylist_counter: string,
+    embeddable: string,
+    no_live_play: string,
+    user_id: string,
+    user_icon_url: string,
+    user_nickname: string
+  },
+  colors: `#${string}`[],
+  presenter_users_count: number,
+  belt_message: string | null,
+  now_message: string | null,
+  rotate_action: string | null,
+  bpm: number,
+  display_playlist_link: boolean
 };
