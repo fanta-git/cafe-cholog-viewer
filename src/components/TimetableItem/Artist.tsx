@@ -1,22 +1,22 @@
 import { Link } from "@/chakra-ui/next-js";
-import { TimetableSong } from "@/foundations/fetchTimetable";
 
 type Props = {
-  song: TimetableSong;
+  artistId: number;
+  artistName: string;
 };
 
 export default function Artist (props: Props) {
-  const { song } = props;
+  const { artistId, artistName } = props;
 
   return (
     <Link
-      href={`/api/artist/${song.artist_id}`}
+      href={`/api/artist/${artistId}`}
       width={"fit-content"}
       color={"#aaaaaa"}
       _hover={{ color: "#ffffff", textDecoration: "underline" }}
       isExternal
     >
-      {song.artist_name}
+      {artistName}
     </Link>
   );
 }

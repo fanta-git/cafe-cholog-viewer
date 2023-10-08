@@ -1,15 +1,13 @@
 import { MdFavorite } from "@/chakra-ui/mdIcons";
 import { AbsoluteCenter, Box, Center, HStack, Icon, Text } from "@/chakra-ui/react";
-import { TimetableSong } from "@/foundations/fetchTimetable";
 
 type Props = {
-  song: TimetableSong;
+  favCount: number;
 };
 
 export default function FavCount (props: Props) {
-  const { song } = props;
+  const { favCount } = props;
 
-  const favCount = song.new_fav_user_ids?.length ?? 0;
   if (favCount === 0) return <></>;
 
   return (

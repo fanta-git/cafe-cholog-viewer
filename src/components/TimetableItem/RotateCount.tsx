@@ -1,14 +1,11 @@
 import { HStack, Mark, Text } from "@/chakra-ui/react";
-import { TimetableSong } from "@/foundations/fetchTimetable";
 
 type Props = {
-  song: TimetableSong;
+  rotateCount: number;
 };
 
 export default function RotateCount (props: Props) {
-  const { song } = props;
-
-  const rotateCount = song.rotateUsers?.length ?? 0;
+  const { rotateCount } = props;
 
   if (rotateCount === 0) return <></>;
 

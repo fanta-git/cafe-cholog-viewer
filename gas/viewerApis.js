@@ -7,11 +7,11 @@
  * @returns {GoogleAppsScript.Content.TextOutput} - JSON形式のレスポンス
  */
 function doGet(e) {
-  const { parameter, pathInfo } = e;
+  const { parameter } = e;
   const ss = SpreadsheetApp.getActiveSpreadsheet();
   const length = Math.min(Number(parameter.length ?? 10), 100);
 
-  if (pathInfo === "date") {
+  if (parameter.type === "date") {
     const { date } = parameter;
     const resultObj = getTimetableDataByDate(ss, date, length);
     return ContentService.createTextOutput()

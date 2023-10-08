@@ -1,15 +1,15 @@
 import { Link } from "@/chakra-ui/next-js";
 import { HStack, Text } from "@/chakra-ui/react";
 import Image from "@/components/Image";
-import { TimetableSong } from "@/foundations/fetchTimetable";
+import { SelectReasonsWithComment, User } from "@/types/kiiteapi";
 
 type Props = {
-  song: TimetableSong;
+  mainReason: SelectReasonsWithComment;
+  priorityUser: User | undefined;
 };
 
 export default function Reason (props: Props) {
-  const { song } = props;
-  const { reasons: [mainReason], priorityUser } = song;
+  const { mainReason, priorityUser } = props;
 
   if (mainReason.type !== "priority_playlist" || priorityUser === undefined) return;
 

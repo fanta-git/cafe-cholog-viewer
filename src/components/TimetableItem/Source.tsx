@@ -1,16 +1,15 @@
 import { MdOpenInNew } from "@/chakra-ui/mdIcons";
 import { Link } from "@/chakra-ui/next-js";
 import { Center, Icon } from "@/chakra-ui/react";
-import { TimetableSong } from "@/foundations/fetchTimetable";
 
 type Props = {
-  song: TimetableSong;
+  videoId: string;
 };
 
 export default function Source (props: Props) {
-  const { song } = props;
+  const { videoId } = props;
 
-  const searchUrl = `https://kiite.jp/search/song?keyword=${song.baseinfo.video_id}`;
+  const searchUrl = `https://kiite.jp/search/song?keyword=${videoId}`;
 
   return (
     <Center w={"100%"} h={"100%"}>

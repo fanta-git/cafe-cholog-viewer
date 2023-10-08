@@ -1,13 +1,13 @@
 import { Box } from "@/chakra-ui/react";
 import Image from "@/components/Image";
-import { TimetableSong } from "@/foundations/fetchTimetable";
 
 type Props = {
-  song: TimetableSong;
+  thumbnail: string;
+  title: string;
 };
 
 export default function Thumbnail (props: Props) {
-  const { song } = props;
+  const { thumbnail, title } = props;
 
   return (
     <Box
@@ -18,8 +18,8 @@ export default function Thumbnail (props: Props) {
       flexShrink={0}
     >
       <Image
-        src={song.thumbnail}
-        alt={song.title}
+        src={thumbnail}
+        alt={title}
         width={130}
         height={100}
         w={"100%"}

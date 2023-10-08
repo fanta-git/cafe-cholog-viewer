@@ -10,15 +10,19 @@ import Timestamp from "./Timestamp";
 import Title from "./Title";
 
 type Props = {
+  isLogdata: false;
   song: TimetableSong;
+} | {
+  isLogdata: true;
+  song: ViewerApiResult;
 };
 
 export default function SongCard (props: Props) {
-  const { song } = props;
+  const { isLogdata, song } = props;
 
   return (
     <HStack width={"100%"} alignItems={"flex-start"} fontSize={"12px"}>
-      <Thumbnail song={song} />
+      <Thumbnail title={song.title} thumbnail={song.thumbnail} />
       <Grid
         w={"100%"}
         bgColor={"rgba(0, 0, 0, 0.8)"}
@@ -33,25 +37,27 @@ export default function SongCard (props: Props) {
         `}
       >
         <GridItem area={"time"}>
-          <Timestamp song={song} />
+          <Timestamp startTime={song.start_time} />
         </GridItem>
         <GridItem area={"reas"}>
-          <Reason song={song} />
+          {isLogdata ||
+            <Reason mainReason={song.reasons[0]} priorityUser={song.priorityUser} />
+          }
         </GridItem>
         <GridItem area={"titl"}>
-          <Title song={song} />
+          <Title title={song.title} />
         </GridItem>
         <GridItem area={"arti"}>
-          <Artist song={song} />
+          <Artist artistId={song.artist_id} artistName={song.artist_name} />
         </GridItem>
         <GridItem area={"rota"}>
-          <RotateCount song={song} />
+          <RotateCount rotateCount={isLogdata ? song.rotate_users_count : song.rotateUsers?.length ?? 0} />
         </GridItem>
         <GridItem area={"fave"}>
-          <FavCount song={song} />
+          <FavCount favCount={isLogdata ? song.new_fav_users_count : song.new_fav_user_ids?.length ?? 0} />
         </GridItem>
         <GridItem area={"sour"}>
-          <Source song={song} />
+          <Source videoId={song.video_id} />
         </GridItem>
       </Grid>
     </HStack>

@@ -1,14 +1,13 @@
 import { Center } from "@/chakra-ui/react";
-import { TimetableSong } from "@/foundations/fetchTimetable";
 import { getTimestampStr } from "@/util/time";
 
 type Props = {
-  song: TimetableSong;
+  startTime: string;
 };
 
 export default function Timestamp (props: Props) {
-  const { song } = props;
-  const diffTime = Date.now() - new Date(song.start_time).getTime();
+  const { startTime } = props;
+  const diffTime = Date.now() - Date.parse(startTime);
   const timestampStr = getTimestampStr(diffTime);
 
   return (
