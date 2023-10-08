@@ -9,7 +9,7 @@
 function doGet(e) {
   const { parameter, pathInfo } = e;
   const ss = SpreadsheetApp.getActiveSpreadsheet();
-  const length = Number(parameter.length ?? 10);
+  const length = Math.min(Number(parameter.length ?? 10), 100);
 
   if (pathInfo === "date") {
     const { date } = parameter;
