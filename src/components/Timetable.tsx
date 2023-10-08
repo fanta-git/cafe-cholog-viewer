@@ -6,7 +6,11 @@ import { Button, Spinner, VStack } from "@chakra-ui/react";
 import { useCallback, useLayoutEffect, useRef, useState } from "react";
 import TimetableItem from "./TimetableItem";
 
-type NewType = {
+type Props = {
+  startDate?: string;
+};
+
+type SongItem = {
   isLogdata: false;
   song: TimetableSong;
 } | {
@@ -14,8 +18,9 @@ type NewType = {
   song: ViewerApiResult;
 };
 
-export default function Timetable () {
-  const [items, setItems] = useState<NewType[]>([]);
+export default function Timetable (props: Props) {
+  const { startDate } = props;
+  const [items, setItems] = useState<SongItem[]>([]);
   const [isFetching, setIsFetching] = useState(true);
 
   const isFirst = useRef(true);
@@ -34,15 +39,22 @@ export default function Timetable () {
   }, [items]);
 
   useLayoutEffect(() => {
+    if (!startDate) return;
+    setIsFetching(true);
+    fetchTimetableLog(startDate, 100)
+      .then(timetable => (
+        setItems(timetable.map(v => ({ isLogdata: true, song: v } as const)))
+      ))
+      .then(() => setIsFetching(false));
+  }, [startDate]);
+
+  useLayoutEffect(() => {
     if (!isFirst.current) return;
     isFirst.current = false;
 
     fetchTimetable(100)
       .then(timetable => (
-        setItems(v => [
-          ...v,
-          ...timetable.map(v => ({ isLogdata: false, song: v } as const))
-        ])
+        setItems(timetable.map(v => ({ isLogdata: false, song: v } as const)))
       ))
       .then(() => setIsFetching(false));
   }, []);
